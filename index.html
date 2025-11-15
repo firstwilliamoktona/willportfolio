@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Portfolio — First William Oktona</title>
+<meta name="description" content="Portfolio First William Oktona — Web Developer, Graphic Designer, Video Editor." />
+<link rel="icon" href="profile.jpeg" />
+<style>
+/* ---------- VARIABLES & RESET ---------- */
+:root{
+  --bg: #0b1020;
+  --card: #0f1a2b;
+  --muted: #9aa4b2;
+  --accent: #6a00ff;
+  --accent-2: #ff6aa2;
+  --glass: rgba(255,255,255,0.04);
+  --glass-2: rgba(255,255,255,0.02);
+  --radius: 12px;
+  --maxw: 1200px;
+  --gap: 20px;
+  --text: #e8eef8;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* container */
+.container{max-width:var(--maxw);margin:0 auto;padding:110px 20px 80px;}
+
+/* header */
+.header{
+  position:fixed;inset:0 0 auto 0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;
+  background:linear-gradient(180deg,rgba(0,0,0,0.25),transparent);backdrop-filter:blur(6px);z-index:150;
+}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:white}
+.brand strong{line-height:1}
+.subtle{font-size:12px;color:var(--muted)}
+
+/* nav */
+.nav{display:flex;gap:12px;align-items:center}
+.nav a{padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--muted);font-weight:600;transition:all .18s}
+.nav a:hover,.nav a.active{color:white;background:var(--glass)}
+.right-controls{display:flex;gap:10px;align-items:center}
+.btn{background:var(--accent);border:none;color:white;padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+.theme-select{padding:8px;border-radius:8px;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)}
+.hamburger{display:none;background:transparent;border:0;color:var(--muted);font-size:20px;cursor:pointer}
+
+/* hero */
+.hero{display:flex;gap:32px;align-items:center;justify-content:flex-start;flex-wrap:wrap}
+.card{background:var(--card);padding:22px;border-radius:14px;box-shadow:0 8px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02)}
+.profile{width:240px;height:240px;border-radius:50%;overflow:hidden;border:6px solid rgba(255,255,255,0.04);flex-shrink:0}
+.profile img{width:100%;height:100%;object-fit:cover;display:block}
+.h-intro{max-width:760px}
+.h-intro h1{font-size:30px;margin:6px 0;line-height:1.15}
+.job{color:var(--accent);font-weight:700}
+.lead{color:var(--muted);line-height:1.6;margin-top:10px}
+.cta-row{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+.socials{display:flex;gap:8px;margin-top:12px}
+.socials a{display:inline-flex;padding:8px;border-radius:10px;background:var(--glass);color:var(--muted);text-decoration:none;transition:transform .14s}
+.socials a:hover{transform:translateY(-3px);color:white}
+
+/* typing */
+.typing{display:inline-block;border-right:2px solid rgba(255,255,255,0.12);padding-right:6px;margin-left:6px}
+
+/* sections & grids */
+.section{padding:56px 0}
+.center{text-align:center}
+.grid{display:grid;gap:18px}
+.skills-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.services-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.gallery{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.price-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+
+/* skill card */
+.skill{display:flex;gap:12px;align-items:center;padding:14px;border-radius:12px;background:linear-gradient(180deg,var(--glass),var(--glass-2));}
+.skill .icon{width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;background:rgba(255,255,255,0.02)}
+.progress{height:8px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+
+/* filter */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.filter-row button{padding:8px 12px;border-radius:999px;border:none;background:var(--glass);color:var(--muted);cursor:pointer;transition:all .16s}
+.filter-row button.active{background:var(--accent);color:white;transform:translateY(-2px)}
+
+/* project item */
+.project-item {
+  overflow: hidden;
+  border-radius: 10px;
+  display: block;
+  cursor: pointer;
+}
+
+/* khusus video dan gambar */
+.project-item img,
+.project-item video {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  background: #000; /* buat video kelihatan meski frame awal kosong */
+}
+
+/* efek hover */
+.project-item:hover img,
+.project-item:hover video {
+  transform: scale(1.04);
+  transition: transform .4s;
+}
+
+.project-body {
+  padding: 12px;
+}
+
+/* modal / lightbox */
+.lightbox{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.75);z-index:600;padding:24px;
+}
+.lightbox.open{display:flex}
+.lightbox .inner{max-width:980px;width:100%;border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 20px 60px rgba(2,6,23,0.8)}
+.lightbox img{width:100%;height:auto;display:block}
+.lightbox .meta{padding:12px;display:flex;justify-content:space-between;align-items:center}
+
+/* testimonial */
+.testi{padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);max-width:900px;margin:0 auto}
+
+/* map */
+.map{width:100%;height:220px;border-radius:12px;overflow:hidden}
+
+/* utilities */
+.fab{position:fixed;right:18px;bottom:18px;background:#25D366;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 10px 30px rgba(0,0,0,0.35);z-index:500}
+.backtop{position:fixed;right:18px;bottom:86px;background:rgba(255,255,255,0.06);width:44px;height:44px;border-radius:8px;display:none;align-items:center;justify-content:center;cursor:pointer}
+
+/* small devices */
+@media (max-width: 880px){
+  .nav{display:none}
+  .hamburger{display:inline-block}
+  .container{padding:100px 16px 80px}
+  .hero{justify-content:center;text-align:center}
+  .profile{width:180px;height:180px;margin:0 auto}
+  .h-intro{max-width:100%}
+  .cta-row{justify-content:center}
+  .socials{justify-content:center}
+}
+
+/* extra small */
+@media (max-width:480px){
+  .profile{width:140px;height:140px}
+  .project-item img{height:140px}
+  .h-intro h1{font-size:22px}
+}
+
+/* reveal animation */
+.reveal {opacity:0;transform:translateY(12px);transition:all .6s cubic-bezier(.2,.9,.3,1)}
+.reveal-active{opacity:1;transform:none}
+
+/* accessible focus */
+a:focus,button:focus,input:focus,select:focus,textarea:focus{outline:2px solid rgba(106,0,255,0.22);outline-offset:2px}
+</style>
+</head>
+<body>
+<!-- PRELOADER -->
+<div id="preloader" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:9999">
+  <div style="text-align:center;color:var(--muted)"><strong>Loading portfolio…</strong></div>
+</div>
+
+<!-- HEADER -->
+<header class="header" role="banner">
+  <div class="brand" aria-hidden="false">
+    <div class="logo" aria-hidden="true">FWO</div>
+    <div>
+      <strong>First William Oktona</strong>
+      <div class="subtle">Web · Design · Video</div>
+    </div>
+  </div>
+
+  <nav class="nav" id="mainNav" role="navigation" aria-label="Main navigation">
+    <a href="#home" class="navlink">Home</a>
+    <a href="#about" class="navlink">About</a>
+    <a href="#services" class="navlink">Education</a>
+    <a href="#projects" class="navlink">Portfolio</a>
+    <a href="#contact" class="navlink">Contact</a>
+  </nav>
+
+  <div class="right-controls" aria-hidden="false">
+    <button class="btn secondary" id="downloadCv">Download CV</button>
+    <select id="themeSelect" class="theme-select" aria-label="Theme select">
+      <option value="dark">Dark</option>
+      <option value="light">Light</option>
+      <option value="glass">Glass</option>
+      <option value="neon">Neon</option>
+    </select>
+    <button id="hamb" class="hamburger" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="container" id="top">
+  <!-- HERO -->
+  <section id="home" class="section hero reveal">
+    <div class="card profile" aria-hidden="false">
+      <img src="./profile.jpeg" alt="Foto profil First William" />
+    </div>
+
+    <div class="card h-intro">
+      <div class="job">Portfollio First William Oktona</div>
+      <h1>Hi, I'm <strong>First William Oktona</strong><span class="typing" id="typing" aria-hidden="true"></span></h1>
+      <p class="lead"> Born: 2 October 2002, Dumai Riau Indonesia. A graduated of STT Dumai Majoring Informatics Engineering
+and passionate about Web Development, Graphic Design, Photo Editing, and Video Editing.</p>
+
+      <div class="cta-row">
+        <a class="btn" href="#contact">Hire Me</a>
+        <a class="btn" href="#projects">See My Works</a>
+      </div>
+
+      <div class="socials" aria-label="social links">
+        <a href="https://github.com/firstwilliamoktona" title="GitHub" aria-label="GitHub">GH</a>
+        <a href="https://wa.me/6285194780900" title="Behance" aria-label="Behance">WA</a>
+        <a href="https://www.linkedin.com/in/first-william-oktona-793763271/" title="LinkedIn" aria-label="LinkedIn">Li</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section center reveal">
+    <h2>About Me</h2>
+    <div class="card about-card" style="max-width:900px;margin:12px auto;text-align:left">
+      <p><strong>First William Oktona</strong>Hi! I'm First William Oktona, a graduate of SMKN 2 Dumai in Computer Network Engineering (TKJ) and currently pursuing a degree in Informatics Engineering at STT Dumai. I’m from Dumai, Riau, Indonesia, and passionate about Web Development, Graphic Design, Photo Editing, and Video Editing, combining technical expertise with creativity to deliver impactful results. I believe in continuous learning and aim to contribute to meaningful projects that solve real-world problems. My future goal is to build a successful career in the tech industry, collaborating with innovative teams to create solutions that make a difference.</p>
+      <p style="margin-top:12px">Toolset: VSCode, PHP, MySQL, JavaScript, React, Figma, Photoshop, Illustrator, Premiere Pro, After Effects, Git.</p>
+
+      <div style="margin-top:16px" class="grid skills-grid">
+        <div class="skill"><div class="icon">💻</div><div><strong>Web</strong><div class="progress" style="margin-top:8px"><i style="width:90%"></i></div></div></div>
+        <div class="skill"><div class="icon">🎨</div><div><strong>Design</strong><div class="progress" style="margin-top:8px"><i style="width:86%"></i></div></div></div>
+        <div class="skill"><div class="icon">🎬</div><div><strong>Video</strong><div class="progress" style="margin-top:8px"><i style="width:84%"></i></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="section reveal">
+    <h2 class="center">Education</h2>
+    <div class="grid services-grid" style="margin-top:18px">
+      <div class="card service"><h3>SDN 014 Buluh Kasap</h3><p>(2008-2014).</p></div>
+      <div class="card service"><h3>SMP Budi Dharma Dumai</h3><p>(2014-2017)</p></div>
+      <div class="card service"><h3>SMKN 2 Dumai</h3><p>Computer Network Engineering (2017-2020).</p></div>
+      <div class="card service"><h3>Sekolah Tinggi Teknologi Dumai</h3><p>Bachelor of Computer Science (Undergraduated)</p></div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="projects" class="section reveal">
+    <h2 class="center">Portfolio</h2>
+    <div class="filter-row" style="margin-top:12px">
+      <button class="filter active" data-filter="all">All</button>
+      <button class="filter" data-filter="web">Web</button>
+      <button class="filter" data-filter="design">Design</button>
+      <button class="filter" data-filter="video">Video</button>
+    </div>
+
+    <div class="grid gallery project-grid" style="margin-top:12px">
+      <div class="card project-item" data-cat="design" data-title="E-commerce" tabindex="0">
+        <img src="spanduk.jpeg" alt="E-commerce project" />
+        <div class="project-body"><h3>Design Graphic</h3><p>Designing Banner for event materials.</p></div>
+      </div>
+
+      <div class="card project-item" data-cat="web" data-title="Branding" tabindex="0">
+        <img src="web2.jpg" alt="Branding project" />
+        <div class="project-body"><h3>Website Salary for Company</h3><p>Make Website Salary for Company.</p></div>
+      </div>
+
+    <div class="card project-item" data-cat="video" data-title="Promo Video" tabindex="0">
+  <video width="250" height="150" autoplay loop muted playsinline aria-label="Promo video project">
+    <source src="./video.mp4" type="video/mp4"> </video>
+        <div class="project-body"><h3>Cinematic Video</h3><p>Cinematic Video for Kodim Dumai.</p></div>
+      </div>
+
+      <div class="card project-item" data-cat="web" data-title="Dashboard" tabindex="0">
+        <img src="./landingpage.jpg" alt="Dashboard project" />
+        <div class="project-body"><h3>Landing Page</h3><p>Make a Landing Page Website for Company.</p></div>
+      </div>
+      <div class="card project-item" data-cat="video" data-title="Promo Video" tabindex="0">
+  <video width="250" height="150" autoplay loop muted playsinline aria-label="Promo video project">
+    <source src="./friend.mp4" type="video/mp4"> </video>
+        <div class="project-body"><h3>Cinematic with my friends</h3><p>Cinematic with my friends.</p></div>
+      </div>
+      <div class="grid gallery project-grid" style="margin-top:12px">
+      <div class="card project-item" data-cat="design" data-title="E-commerce" tabindex="0">
+        <img src="barbershop.jpg" alt="E-commerce project" />
+        <div class="project-body"><h3>Design Graphic </h3><p>Designing Coupon Voucher for Barbershop Company.</p></div>
+      </div></div>
+        <div class="card project-item" data-cat="web" data-title="Dashboard" tabindex="0">
+        <img src="./rena.jpg" alt="Dashboard project" />
+        <div class="project-body"><h3>Landing Page </h3><p>Make a Landing Page Website for Rena Tampubolon.</p></div>
+      </div>
+      <div class="card project-item" data-cat="video" data-title="Promo Video" tabindex="0">
+  <video width="250" height="150" autoplay loop muted playsinline aria-label="Promo video project">
+    <source src="./tutorial.mp4" type="video/mp4"> </video>
+        <div class="project-body"><h3>Tutorial Video</h3><p>Tutorial Video for Student.</p></div>
+      </div></div>
+    </div>
+  </section>
+  <!-- PORTFOLIO -->
+  <section id="projects" class="section reveal">
+    <h2 class="center">Cerification</h2>
+ 
+    <div class="grid gallery project-grid" style="margin-top:12px">
+      <div class="card project-item" data-cat="web" data-title="E-commerce" tabindex="0">
+        <img src="./c1.jpg" alt="E-commerce project" />
+        <div class="project-body"><h3>AWS Cloud</h3><p>Certicate AWS CLOUD.</p></div>
+      </div>
+
+      <div class="card project-item" data-cat="design" data-title="Branding" tabindex="0">
+        <img src="c2.jpg" alt="Branding project" />
+        <div class="project-body"><h3>JavaScript</h3><p>Certificate Javascript.</p></div>
+      </div>
+
+      <div class="card project-item" data-cat="video" data-title="Promo Video" tabindex="0">
+        <img src="c3.jpg" alt="Promo video project" />
+        <div class="project-body"><h3>AI</h3><p>Certificate AI.</p></div>
+      </div>
+
+      <div class="card project-item" data-cat="web" data-title="Dashboard" tabindex="0">
+        <img src="c4.jpg" alt="Dashboard project" />
+        <div class="project-body"><h3>Back-End</h3><p>Certicate Back-End.</p></div>
+      </div>
+       <div class="card project-item" data-cat="video" data-title="Promo Video" tabindex="0">
+        <img src="c5.jpg" alt="Promo video project" />
+        <div class="project-body"><h3>Front-End</h3><p>Certificate Front-End.</p></div>
+      </div>
+
+      <div class="card project-item" data-cat="web" data-title="Dashboard" tabindex="0">
+        <img src="c6.jpg" alt="Dashboard project" />
+        <div class="project-body"><h3>Web Developer</h3><p>Certicate Web Developer.</p></div>
+      </div>
+       <div class="card project-item" data-cat="video" data-title="Promo Video" tabindex="0">
+        <img src="c5.jpg" alt="Promo video project" />
+        <div class="project-body"><h3>Networking</h3><p>Certificate Networking.</p></div>
+      </div>
+
+      <div class="card project-item" data-cat="web" data-title="Dashboard" tabindex="0">
+        <img src="c6.jpg" alt="Dashboard project" />
+        <div class="project-body"><h3>Python</h3><p>Certicate Python.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- lightbox -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="inner" role="document">
+      <img id="lightboxImg" src="" alt="">
+      <div class="meta">
+        <div id="lightboxTitle" style="color:var(--muted)"></div>
+        <div>
+          <button id="closeLightbox" class="btn secondary">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <section id="experience" class="section center reveal">
+    <h2>Experience</h2>
+    <div class="timeline" style="margin-top:12px;max-width:900px;margin-left:auto;margin-right:auto">
+      <div class="timeline-item"><div class="dot"></div><div><strong>Kodim 0320/Dumai (August 2025 - Present)</strong><div><p>Photo editor for official documentation at Kodim Dumai</p><p>Graphic designer for event materials</p><p> including banners and brochures, Responsible for creating visual content to support unit activities</p><p>Assisted in administrative tasks such as document preparation and activity coordination.</p>  </div></div></div>
+      <div class="timeline-item"><div class="dot"></div><div><strong>Freelancer 2023 - 2025</strong><div><p>Providing academic task assistance services (papers, PowerPoint presentations, etc.)</p>
+<p>Offering graphic design services such as business cards, banners, logos, magazines, and more</p>
+<p>Creating simple websites (Landing Pages)</p>
+<p>Developing simple games using Greenfoot and MIT App Inventor</p>
+<p>Providing video editing services (educational videos, advertisements, assignments, cinematic videos, short movies) using Adobe Premiere, Filmora, and CapCut</p>
+<p>Creating 2D animation using Adobe After Effects</p>
+<p>Offering smartphone repair services (LCD replacement, battery, buttons, and other components)</p>
+<p>Providing OS installation services (Windows and Android)</p>
+</div></div></div>
+<div class="timeline-item"><div class="dot"></div><div><strong>Completed school internships at Millenium Computer & Gadget (Oct 2019 – Dec 2019) and PT Duta Infomedia / Links Technology (Mar 2019 – May 2019).</strong><div><p>Performed troubleshooting for computers, printers, and smartphones (LCD, battery, buttons, and other components).</p>
+<p>Installed software (OS and applications) and drivers for computers, smartphones, and printers.</p>
+<p>Assisted in assembling and installing computer and laptop components.</p>
+<p>Supported LAN cable installation.</p>
+<p>Installed internet networks using access points and Mikrotik (DHCP) for homes, shops, and offices.</p>
+<p>Installed CCTV systems in various locations.</p>
+<p>Conducted network maintenance and LAN cable repairs/installation.</p>
+</div></div></div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="tech" class="section reveal">
+    <h2 class="center">Tech Stack & Tools</h2>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin-top:18px">
+      <div class="card" style="display:flex;gap:12px;align-items:center"><div style="width:56px;height:56px;border-radius:8px;background:#0e76a8;display:flex;align-items:center;justify-content:center">VS</div><div>VS Code</div></div>
+      <div class="card" style="display:flex;gap:12px;align-items:center"><div style="width:56px;height:56px;border-radius:8px;background:#31A8FF;display:flex;align-items:center;justify-content:center">Pr</div><div>Premiere</div></div>
+      <div class="card" style="display:flex;gap:12px;align-items:center"><div style="width:56px;height:56px;border-radius:8px;background:#6C5CE7;display:flex;align-items:center;justify-content:center">Ae</div><div>After Effects</div></div>
+      <div class="card" style="display:flex;gap:12px;align-items:center"><div style="width:56px;height:56px;border-radius:8px;background:#FF6B6B;display:flex;align-items:center;justify-content:center">Ps</div><div>Photoshop</div></div>
+      <div class="card" style="display:flex;gap:12px;align-items:center"><div style="width:56px;height:56px;border-radius:8px;background:#8892BF;display:flex;align-items:center;justify-content:center">PHP</div><div>PHP</div></div>
+      <div class="card" style="display:flex;gap:12px;align-items:center"><div style="width:56px;height:56px;border-radius:8px;background:#00758F;display:flex;align-items:center;justify-content:center">DB</div><div>MySQL</div></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section reveal">
+    <h2 class="center">Contact</h2>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:12px">
+      <div class="card" style="max-width:520px">
+        <h3>Send a message</h3>
+        <form class="form" id="contactForm">
+          <input class="input" id="name" placeholder="Nama" required style="width:100%;margin-top:8px"/>
+          <input class="input" id="email" type="email" placeholder="Email" required style="width:100%;margin-top:8px"/>
+          <textarea class="input" id="message" placeholder="Pesan" style="min-height:120px;margin-top:8px;width:100%" required></textarea>
+          <button class="btn" type="submit" style="margin-top:8px">Kirim</button>
+        </form>
+      </div>
+
+      <div class="card" style="max-width:320px">
+        <h3>Contact Info</h3>
+        <p>Location: Dumai, Indonesia</p>
+        <p>Email: willoktona01@gmail.com</p>
+        <p>Phone: +62 851 9478 0900</p>
+        <div style="margin-top:12px"><a class="btn" target="_blank" href="willoktona01@gmail.com">Email Me</a></div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px" class="map card">
+      <iframe title="map" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5640.05269485074!2d101.45801039101282!3d1.6720503117422065!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d3af72abc5d603%3A0x23f494f6c2d11c4a!2sWilliam%20Website!5e0!3m2!1sid!2sid!4v1763187755245!5m2!1sid!2sid" width="100%" height="220" style="border:0;border-radius:8px"></iframe>
+    </div>
+  </section>
+
+</main>
+
+<!-- FAB WhatsApp -->
+<a class="fab" href="https://wa.me/6285194780900" target="_blank" aria-label="Chat via WhatsApp">💬</a>
+<div class="backtop" id="backTop" title="Back to top">↑</div>
+
+<!-- MODAL PLACEHOLDER -->
+<div id="modal" style="display:none"></div>
+
+<footer style="padding:24px;text-align:center;color:var(--muted)">© <span id="year"></span> First William Oktona • Built with ❤️</footer>
+
+<script>
+/* ------------------- helpers ------------------- */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* ---------- PRELOADER ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+  // remove preloader
+  setTimeout(()=>{ const p = document.getElementById('preloader'); if(p) p.style.display='none'; }, 380);
+
+  // set year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // reveal observer
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(ent => {
+      if(ent.isIntersecting){ ent.target.classList.add('reveal-active'); obs.unobserve(ent.target); }
+    });
+  },{threshold:0.12});
+  reveals.forEach(r=>io.observe(r));
+});
+
+/* ---------- THEME ---------- */
+const themeSelect = document.getElementById('themeSelect');
+function setTheme(t){
+  document.documentElement.classList.remove('light','glass','neon');
+  if(t==='light') document.documentElement.classList.add('light');
+  if(t==='glass') document.documentElement.classList.add('glass');
+  if(t==='neon') document.documentElement.classList.add('neon');
+  localStorage.setItem('site-theme', t);
+}
+const saved = localStorage.getItem('site-theme') || 'dark';
+themeSelect.value = saved;
+setTheme(saved);
+themeSelect.addEventListener('change', e => setTheme(e.target.value));
+
+/* small theme skins (light/neon/glass) */
+const styleLight = document.createElement('style');
+styleLight.innerHTML = `
+:root{--bg:#f6f7fb;--card:#ffffff;--text:#0b1020;--muted:#59626a}
+.header{background:linear-gradient(180deg,rgba(255,255,255,0.9),transparent);backdrop-filter:none}
+.nav a{color:var(--muted)}
+`;
+document.head.appendChild(styleLight);
+styleLight.disabled = (saved !== 'light');
+
+const styleGlass = document.createElement('style');
+styleGlass.innerHTML = `
+:root{--bg:linear-gradient(180deg,#0b1020,#071028);--card:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06))}
+`;
+document.head.appendChild(styleGlass);
+styleGlass.disabled = (saved !== 'glass');
+
+const styleNeon = document.createElement('style');
+styleNeon.innerHTML = `
+:root{--accent:#00ffd5;--accent-2:#6a00ff}
+`;
+document.head.appendChild(styleNeon);
+styleNeon.disabled = (saved !== 'neon');
+
+document.addEventListener('click', ()=> {
+  styleLight.disabled = (localStorage.getItem('site-theme')!=='light');
+  styleGlass.disabled = (localStorage.getItem('site-theme')!=='glass');
+  styleNeon.disabled = (localStorage.getItem('site-theme')!=='neon');
+});
+
+/* ---------- MOBILE NAV ---------- */
+const hamb = $('#hamb');
+const mainNav = $('#mainNav');
+hamb && hamb.addEventListener('click', () => {
+  const expanded = hamb.getAttribute('aria-expanded') === 'true';
+  hamb.setAttribute('aria-expanded', (!expanded).toString());
+  if(mainNav.style.display === 'flex'){ mainNav.style.display = 'none'; }
+  else {
+    mainNav.style.display = 'flex';
+    mainNav.style.flexDirection = 'column';
+    mainNav.style.position = 'absolute';
+    mainNav.style.right = '20px';
+    mainNav.style.top = '72px';
+    mainNav.style.background = 'var(--card)';
+    mainNav.style.padding = '12px';
+    mainNav.style.borderRadius = '8px';
+    mainNav.style.boxShadow = '0 10px 30px rgba(2,6,23,0.6)';
+  }
+});
+window.addEventListener('resize', ()=> { if(window.innerWidth > 880) mainNav.style.display = 'flex'; });
+
+/* ---------- SMOOTH SCROLL & ACTIVE NAV ---------- */
+const navLinks = $$('.navlink');
+function onScrollActive(){
+  const fromTop = window.scrollY + 90;
+  navLinks.forEach(link=>{
+    const id = link.getAttribute('href');
+    if(!id || id.indexOf('#')!==0) return;
+    const sec = document.querySelector(id);
+    if(sec){
+      if(sec.offsetTop <= fromTop && sec.offsetTop + sec.offsetHeight > fromTop) link.classList.add('active');
+      else link.classList.remove('active');
+    }
+  });
+}
+window.addEventListener('scroll', onScrollActive);
+navLinks.forEach(a=>a.addEventListener('click', e=>{
+  e.preventDefault();
+  const id = a.getAttribute('href'); const el = document.querySelector(id);
+  if(el) window.scrollTo({top: el.offsetTop - 70, behavior:'smooth'});
+}));
+
+/* ---------- TYPING EFFECT ---------- */
+const typingEl = document.getElementById('typing');
+const words = ['Web Developer','Graphic Designer','Video Editor','Photo Editor'];
+let wIdx=0, chIdx=0, typingForward=true;
+function typeLoop(){
+  const word = words[wIdx];
+  if(typingForward){
+    if(chIdx<=word.length){ typingEl.textContent = ' '+word.substring(0,chIdx); chIdx++; }
+    else typingForward=false;
+  } else {
+    if(chIdx>=0){ typingEl.textContent = ' '+word.substring(0,chIdx); chIdx--; }
+    else{ typingForward=true; wIdx=(wIdx+1)%words.length; }
+  }
+  setTimeout(typeLoop, 110);
+}
+typingEl && typeLoop();
+
+/* ---------- PORTFOLIO FILTER & LIGHTBOX ---------- */
+const filters = $$('.filter');
+const items = $$('.project-item');
+filters.forEach(f=>f.addEventListener('click', ()=>{
+  filters.forEach(b=>b.classList.remove('active'));
+  f.classList.add('active');
+  const cat = f.dataset.filter;
+  items.forEach(it=>{
+    if(cat==='all' || it.dataset.cat===cat) it.style.display='block';
+    else it.style.display='none';
+  });
+}));
+
+// lightbox open
+const lightbox = $('#lightbox');
+const lightboxImg = $('#lightboxImg');
+const lightboxTitle = $('#lightboxTitle');
+const closeLightbox = $('#closeLightbox');
+items.forEach(it=>{
+  const openLb = () => {
+    const img = it.querySelector('img');
+    const src = img ? img.src : '';
+    const title = it.dataset.title || it.querySelector('h3')?.innerText || '';
+    lightboxImg.src = src;
+    lightboxImg.alt = title;
+    lightboxTitle.textContent = title;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    closeLightbox.focus();
+  };
+  it.addEventListener('click', openLb);
+  it.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(); } });
+});
+closeLightbox && closeLightbox.addEventListener('click', ()=>{ lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; lightboxImg.src = ''; });
+
+// close lightbox on background click or Esc
+lightbox && lightbox.addEventListener('click', (e)=>{
+  if(e.target === lightbox) { lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; lightboxImg.src = ''; }
+});
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') { if(lightbox.classList.contains('open')) { lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; lightboxImg.src = ''; } } });
+
+/* ---------- TESTIMONIALS ---------- */
+const testi = ["Great work, delivered on time and exceeded expectations.","Very creative design and attention to detail.","Professional and responsive — highly recommended."];
+let testiIdx = 0;
+const testiBox = $('#testiBox');
+function showTesti(i){ if(testiBox) testiBox.textContent = '"'+testi[i]+'" — Client'; }
+showTesti(testiIdx);
+$('#nextT') && $('#nextT').addEventListener('click', ()=>{ testiIdx=(testiIdx+1)%testi.length; showTesti(testiIdx); });
+$('#prevT') && $('#prevT').addEventListener('click', ()=>{ testiIdx=(testiIdx-1+testi.length)%testi.length; showTesti(testiIdx); });
+
+/* ---------- CONTACT FORM (demo) ---------- */
+const contactForm = $('#contactForm');
+if(contactForm){
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Terima kasih! Pesan Anda telah dikirim (demo).');
+    contactForm.reset();
+  });
+}
+
+/* ---------- DOWNLOAD CV ---------- */
+$('#downloadCv') && $('#downloadCv').addEventListener('click', ()=>{
+  const a = document.createElement('a');
+  a.href = './cv.pdf';
+  a.download = 'CV-First-William-Oktona.pdf';
+  document.body.appendChild(a); a.click(); a.remove();
+});
+
+/* ---------- BACK TO TOP ---------- */
+const backTop = $('#backTop');
+backTop && backTop.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+window.addEventListener('scroll', ()=> {
+  if(window.scrollY > 400) backTop.style.display = 'flex'; else backTop.style.display = 'none';
+});
+
+/* ---------- keyboard shortcut (Ctrl/Cmd + K) ---------- */
+window.addEventListener('keydown', e => { if((e.ctrlKey||e.metaKey) && (e.key === 'k' || e.key === 'K')) { window.scrollTo({top:0,behavior:'smooth'}); } });
+
+/* ---------- accessibility: trap focus in lightbox when open (simple) ---------- */
+document.addEventListener('focusin', (e) => {
+  if(lightbox.classList.contains('open') && !lightbox.contains(e.target)) {
+    e.preventDefault();
+    closeLightbox && closeLightbox.focus();
+  }
+});
+</script>
+</body>
+</html>
